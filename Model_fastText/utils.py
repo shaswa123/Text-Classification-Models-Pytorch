@@ -32,13 +32,18 @@ class Dataset(object):
         Load the data into Pandas.DataFrame object
         This will be used to convert data to torchtext object
         '''
-        with open(filename, 'r') as datafile:     
-            data = [line.strip().split(',', maxsplit=1) for line in datafile]
-            data_text = list(map(lambda x: x[1], data))
-            data_label = list(map(lambda x: self.parse_label(x[0]), data))
+#         with open(filename, 'r') as datafile:     
+#             data = [line.strip().split(',', maxsplit=1) for line in datafile]
+#             data_text = list(map(lambda x: x[1], data))
+#             data_label = list(map(lambda x: self.parse_label(x[0]), data))
 
-        full_df = pd.DataFrame({"text":data_text, "label":data_label})
-        return full_df
+#         full_df = pd.DataFrame({"text":data_text, "label":data_label})
+        
+        full_df = pd.read_csv(filename)
+        full_df = full_df[full_df.label != 'n']
+        full_df = full_df.astype({'label': int})
+        
+        return full_df[["text", "label"]]
     
     def load_data(self, w2v_file, train_file, test_file, val_file=None):
         '''
