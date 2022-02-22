@@ -1,9 +1,9 @@
 # utils.py
 
 import torch
-from torchtext import data
+from torchtext.legacy import data
 from torchtext.vocab import Vectors
-import spacy
+from spacy.lang.te import Telugu
 import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -38,9 +38,19 @@ class Dataset(object):
 #             data_label = list(map(lambda x: self.parse_label(x[0]), data))
 
 #         full_df = pd.DataFrame({"text":data_text, "label":data_label})
-        
         full_df = pd.read_csv(filename)
+        full_df = full_df[["Text", "Humour"]]
+        full_df = full_df.rename(columns={
+            "Text": "text",
+            "Humour": "label"
+        })
+        full_df["label"] = full_df["label"].replace('o', 0)
+
         full_df = full_df[full_df.label != 'n']
+        full_df = full_df[full_df.label != 'N']
+        
+        full_df.dropna(inplace=True)
+
         full_df = full_df.astype({'label': int})
         
         return full_df[["text", "label"]]
@@ -58,7 +68,7 @@ class Dataset(object):
             val_file (String): absolute path to validation file
         '''
 
-        NLP = spacy.load('en')
+        NLP = Telugu()
         tokenizer = lambda sent: [x.text for x in NLP.tokenizer(sent) if x.text != " "]
         
         # Creating Field for data
