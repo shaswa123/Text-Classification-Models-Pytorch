@@ -52,7 +52,7 @@ class Dataset(object):
         full_df.dropna(inplace=True)
 
         full_df = full_df.astype({'label': int})
-        
+        full_df.sample(frac=1)
         return full_df[["text", "label"]]
     
     def load_data(self, w2v_file, train_file, test_file, val_file=None):
