@@ -17,8 +17,10 @@ if __name__=='__main__':
     test_file = '../data/ag_news.test'
     if len(sys.argv) > 3:
         test_file = sys.argv[2]
-    
-    w2v_file = '../data/glove.840B.300d.txt'
+    w2v_file = './cc.te.300.vec'
+    if len(sys.argv) > 4:
+      w2v_file=sys.argv[3]
+
     
     dataset = Dataset(config)
     dataset.load_data(w2v_file, train_file, test_file)
