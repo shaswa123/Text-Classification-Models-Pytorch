@@ -6,7 +6,7 @@ from torchtext.vocab import Vectors
 from spacy.lang.te import Telugu
 import pandas as pd
 import numpy as np
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 class Dataset(object):
     def __init__(self, config):
@@ -129,4 +129,5 @@ def evaluate_model(model, iterator):
         all_preds.extend(predicted.numpy())
         all_y.extend(batch.label.numpy())
     score = accuracy_score(all_y, np.array(all_preds).flatten())
-    return score
+
+    return score, precision_recall_fscore_support( all_y, np.array(all_preds).flatten(), average="macro")
