@@ -46,10 +46,13 @@ if __name__=='__main__':
         train_losses.append(train_loss)
         val_accuracies.append(val_accuracy)
 
-    train_acc = evaluate_model(model, dataset.train_iterator)
-    val_acc = evaluate_model(model, dataset.val_iterator)
-    test_acc = evaluate_model(model, dataset.test_iterator)
+    train_acc, train_prf = evaluate_model(model, dataset.train_iterator)
+    val_acc, val_prf = evaluate_model(model, dataset.val_iterator)
+    test_acc, test_prf = evaluate_model(model, dataset.test_iterator)
 
     print ('Final Training Accuracy: {:.4f}'.format(train_acc))
+    print ('Final Training prf: ', train_prf)
     print ('Final Validation Accuracy: {:.4f}'.format(val_acc))
+    print ('Final Validation prf: ', val_prf)
     print ('Final Test Accuracy: {:.4f}'.format(test_acc))
+    print ('Final Test prf: ', test_prf)
